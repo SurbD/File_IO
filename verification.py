@@ -24,7 +24,6 @@ class Verify:
                 for key in data:
                     if user_id == key:
                         print('Match!')
-                        # self.id_list = key
                         self.__user_id = user_id
                         self.user_info = data
                         self.username = self.user_info.get(user_id).get('username')
@@ -54,33 +53,14 @@ class Verify:
                     self.save_progress()
                     
                     break
-                    # user_data = {
-                    #     self.__user_id: {
-                    #         'username': username,
-                    #         'recent_file': 'Null for now',
-                    #     }
-
-                    # }
-
-                    # self.db.append(user_data)
             else:
                 self.__user_id = user_id
                 self.save_progress()
-                # user_data = {
-                #         self.user_id: {
-                #             'username': username,
-                #             'recent_file': 'Null for now',
-                #         }
-
-                #     }
-                # self.db.append(user_data)
                 break
 
                     
         hidden = self.__user_id[: user_id.index('#')]+ '*'*5
-
         print(f"This is your Unique ID -- '{hidden}'. _____ NB: To get ID call the user_id variable '[className().user_id]'")
-        self.Save()
 
     def db_retrive(self):
 
@@ -95,13 +75,6 @@ class Verify:
         
         else:
             return db
-
-    def Save(self):
-        
-        with open(self.database, 'w') as db_obj:
-            json.dump(self.db, db_obj)
-        
-        print('Done!')
 
     def save_progress(self):
         user_data = {
