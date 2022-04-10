@@ -13,6 +13,7 @@ class Verify:
         self.username = ''
         self.recent_file = ''
         self.user_info = ''
+        self.id_list = [key for data in self.db for key in data]
 
 
     def recover(self, user_id):
@@ -23,7 +24,7 @@ class Verify:
             for data in self.db:
                 for key in data:
                     if user_id == key:
-                        print('Match!')
+                        # print('Match!')
                         self.__user_id = user_id
                         self.user_info = data
                         self.username = self.user_info.get(user_id).get('username')
@@ -36,6 +37,7 @@ class Verify:
         """Generate ID Method: it takes one argument which is the 'username' uses it to creates a new id for the user and 
         saves it to the data file ('.json file'). """
         loop_duration = 0
+        self.username = username
             
         while loop_duration <= 100:
             digit = ''.join([str(randint(0,9)) for i in range(4)])
@@ -69,7 +71,7 @@ class Verify:
             with open(self.database) as db_obj:
                 db = json.load(db_obj)
 
-        except (json.JSONDecodeError): 
+        except (json.JSONDecodeError, FileNotFoundError): 
             print("DataBase is empty... No present user!. [Run the 'generate_id' function to get your id]")
             return []
         

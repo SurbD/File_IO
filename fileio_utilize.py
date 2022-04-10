@@ -1,6 +1,45 @@
 from verification import Verify
 
-class UtilityFileIO(Verify):
+class WordScraping:
+    ''' This Class is Mainly for word(s) mainpulation or collection, Just getting more data on the text in the document.
+
+                ++++++ More Methods Coming Soon... ++++++
+    '''
+
+    def phrase_freqency(self, phrase): # Word or Phrase frequency
+        """ Counts how many times the word argument appears in your file, and return the number. """
+
+        self.check_id()
+        with open(self.filepath) as f_obj:
+            content = f_obj.read()
+            frequency = content.count(phrase)
+
+        if int(frequency):
+            return None
+        else:
+            return frequency
+
+    def find_line(self, line_number):
+        """ This program accepts a 'line_number'(must be an integer(1 -> nth line)) argument that signifies a line in the file and returns that line only.
+        NB: if line value is greater than the initial line length in the file, the last line is returned. """
+
+        self.check_id()
+        line = ''
+
+        with open(self.filepath) as f_obj:
+            lines = f_obj.readlines()
+        
+        try:
+            line += lines[line_number-1]
+        except IndexError:
+            line += lines[-1]
+            line_number = lines.index(lines[-1]) + 1
+            return f'{line_number}. {line.strip()}'
+        else:
+            return f'{line_number}. {line.strip()}'
+
+
+class UtilityFileIO(Verify, WordScraping):
     """This is a draft for the FileIO project, No GUI yet.... coming soon . NB: Always Run the [save()] method to keep track of your file changes """
     recent_files = ''
     
@@ -63,7 +102,8 @@ class UtilityFileIO(Verify):
     def check_id(self):
         try:
             if self.username:
-                print(f'Welcome back {self.username.capitalize()}')
+                return
+                # print(f'Welcome back {self.username.capitalize()}')
             else:
                 raise ValueError
         
@@ -71,53 +111,8 @@ class UtilityFileIO(Verify):
             print('Run [recover(user_id) or generate_id(username) if New]')
             exit()
 
-
-class WordScraping(UtilityFileIO):
-
-    ''' This Class is Mainly for word(s) mainpulation or collection, Just getting more data on the text in the document.
-
-                ++++++ Coming Soon... ++++++
-    '''
-
-    def __init__(self, filepath):
-        super().__init__(filepath)
-
-    def phrase_freqency(self, phrase): # Word or Phrase frequency
-        """ Counts how many times the word argument appears in your file, and return the number. """
-
-        self.check_id()
-        with open(self.filepath) as f_obj:
-            content = f_obj.read()
-            frequency = content.count(phrase)
-
-        if int(frequency):
-            return None
-        else:
-            return frequency
-
-    def find_line(self, line_number):
-        """ This program accepts a 'line_number'(must be an integer(1 -> nth line)) argument that signifies a line in the file and returns that line only.
-        NB: if line value is greater than the initial line length in the file, the last line is returned. """
-
-        self.check_id()
-        line = ''
-
-        with open(self.filepath) as f_obj:
-            lines = f_obj.readlines()
-        
-        try:
-            line += lines[line_number-1]
-        except IndexError:
-            line += lines[-1]
-            line_number = lines.index(lines[-1]) + 1
-            return f'{line_number}. {line.strip()}'
-        else:
-            return f'{line_number}. {line.strip()}'
-    
-
 util_ = UtilityFileIO('data_files/food.txt')
-util_.recover("Paul#5274")
+util_.generate_id("jake")
 
-print(util_.recent_file)
-util_.save_progress()
-print(util_.recent_file)
+print(util_.recent_files)
+print(util_.find_line(6))
